@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <title>EVM — Electronic Voting Machine</title>
+  <meta name="theme-color" content="#2b3e50">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+
+  <!-- Main App Container -->
+  <main id="app">
+    
+    <!-- VIEW 1: BALLOT UNIT -->
+    <section id="ballot-view" class="view active">
+      <div class="evm-unit ballot-unit">
+        <header class="unit-header">
+          <div class="status-area">
+            <span class="label">Ready</span>
+            <div class="led-indicator" id="statusLed"></div>
+          </div>
+          <h1>Ballot Unit</h1>
+        </header>
+
+        <div class="ballot-paper-area" id="candidateList">
+          <!-- Candidates injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: VVPAT UNIT -->
+    <section id="vvpat-view" class="view hidden">
+      <div class="evm-unit vvpat-unit">
+        <header class="unit-unit-header">
+          <div class="led-box">
+            <span class="led-label">Printer</span>
+            <div class="led-indicator green" id="vvpatLed"></div>
+          </div>
+        </header>
+        
+        <div class="vvpat-body">
+            <div class="vvpat-window-frame">
+                <div class="vvpat-glass">
+                    <div class="vvpat-paper-track" id="paperTrack"></div>
+                </div>
+            </div>
+            <div class="vvpat-label">VVPAT</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: TALLY UNIT -->
+    <section id="tally-view" class="view hidden">
+      <div class="evm-unit tally-unit">
+        <header class="unit-header">
+            <h1>Control Unit - Result</h1>
+        </header>
+        <div class="tally-display">
+            <ul id="tallyList"></ul>
+        </div>
+        <div class="control-panel">
+            <button id="nextVoteBtn" class="control-btn blue">Next Vote</button>
+            <button id="clearBtn" class="control-btn red">Clear All</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VVPAT — Printer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="vvpat-container">
+    <header class="vvpat-header">
+      <div class="vvpat-led" id="vvpatLed">Idle</div>
+      <div>
+        <button onclick="window.close()">Close</button>
+      </div>
+    </header>
+
+    <section id="vvpatWindow">
+      <div class="vvpat-machine" id="vvpatMachine">
+        <img id="vvpatMachineImg" src="assets/vvpat-machine.png" alt="VVPAT machine" />
+        <div class="vvpat-window" aria-hidden="false">
+          <div class="vvpat-cutout"></div>
+          <div class="paper-track" id="paperTrack" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top:10px">
+      <div>VVPAT printer — slips print inside the machine window for ~7s then exit to the tray (you'll hear a beep).</div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

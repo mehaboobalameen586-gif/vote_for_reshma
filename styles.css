@@ -1,0 +1,289 @@
+:root {
+  --evm-blue: #0056b3; /* Official-ish EVM Button Blue */
+  --evm-body: #eeeeee;
+  --evm-dark: #2b3e50;
+  --evm-led-red: #ff0000;
+  --evm-led-green: #00ff00;
+  --paper-pink: #fce4ec; /* Pink strip often seen on ballots */
+  --paper-white: #ffffff;
+  --text-black: #111111;
+  --glass-dark: rgba(20, 20, 30, 0.85);
+  font-family: Arial, Helvetica, sans-serif; /* Standard industrial font */
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #1a1a1a; }
+
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* View Handling */
+.view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.view.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
+  transform: scale(1);
+}
+.view.hidden {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Common EVM Unit Styling */
+.evm-unit {
+  background: var(--evm-body);
+  border: 4px solid #999;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- BALLOT UNIT --- */
+.ballot-unit {
+  width: 100%;
+  height: 100%;
+  max-width: 480px;
+  max-height: 800px;
+}
+
+.unit-header {
+  background: #ccc;
+  padding: 10px;
+  border-bottom: 2px solid #999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.unit-header h1 { margin: 0; font-size: 1.2rem; color: #333; text-transform: uppercase; }
+
+.status-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 0.9rem; }
+.led-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #500000; /* Dim Red */
+  border: 1px solid #333;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+  transition: all 0.2s;
+}
+.led-indicator.on {
+  background: var(--evm-led-red);
+  box-shadow: 0 0 10px var(--evm-led-red);
+}
+.led-indicator.green.on {
+  background: var(--evm-led-green);
+  box-shadow: 0 0 10px var(--evm-led-green);
+}
+
+.ballot-paper-area {
+  flex: 1;
+  background: #fff;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Close spacing like real ballot paper */
+}
+
+/* Ballot Row - Exact Layout */
+.candidate-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 50px 80px; /* Serial | Name+Symbol | LED | Button */
+  align-items: center;
+  border: 1px solid #ccc;
+  min-height: 60px;
+  background: var(--paper-white);
+}
+/* Removed pink striping as requested - all white now */
+
+.serial-no { font-size: 1.5rem; font-weight: bold; text-align: center; border-right: 1px solid #ccc; height: 100%; display: flex; align-items: center; justify-content: center; }
+
+.candidate-info {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Push symbol to right */
+  height: 100%;
+  border-right: 1px solid #ccc;
+}
+.c-name { font-weight: bold; font-size: 1.1rem; }
+.c-symbol { width: 48px; height: 48px; object-fit: contain; } /* Increased from 40px */
+
+.led-col { display: flex; justify-content: center; align-items: center; height: 100%; border-right: 1px solid #ccc; }
+.cand-led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #400000;
+  transition: all 0.2s;
+}
+.cand-led.on { background: var(--evm-led-red); box-shadow: 0 0 8px var(--evm-led-red); }
+/* Ballot Unit Ready Light (Green) */
+.led-indicator.ready {
+    background: var(--evm-led-green);
+    box-shadow: 0 0 10px var(--evm-led-green);
+}
+
+.btn-col { display: flex; justify-content: center; align-items: center; background: #ddd; height: 100%; }
+.blue-btn {
+  background: var(--evm-blue);
+  width: 60px;
+  height: 36px;
+  border-radius: 18px; /* Oval shape */
+  border: none;
+  box-shadow: 0 4px 0 #003366;
+  cursor: pointer;
+}
+.blue-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #003366; }
+.blue-btn:disabled { opacity: 0.8; cursor: not-allowed; }
+
+
+/* --- VVPAT UNIT --- */
+.vvpat-unit {
+  width: 360px;
+  height: 500px;
+  background: #dcdcdc; /* Specific dark grey/blue tone can be tuned */
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 20px 50px black;
+  position: relative;
+}
+.unit-unit-header {
+  height: 60px;
+  background: #445;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+}
+.led-box { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff; font-size: 10px; text-transform: uppercase; }
+.led-indicator.green { background: #003300; }
+
+.vvpat-body {
+  flex: 1;
+  background: #556;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  position: relative;
+}
+.vvpat-window-frame {
+  width: 280px;
+  height: 200px;
+  background: #222;
+  border: 4px solid #111;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: inset 0 0 20px #000;
+}
+.vvpat-glass {
+  width: 100%;
+  height: 100%;
+  background: var(--glass-dark);
+  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden; /* Hide slip when it drops out */
+}
+
+/* Paper Slip Animation */
+.vvpat-paper-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.paper-slip {
+  width: 160px;
+  background: #fff;
+  border: 1px solid #ccc;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -150px; /* Start hidden above */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.slip-serial { font-weight: bold; font-size: 1.2rem; }
+.slip-name { font-weight: bold; font-size: 1rem; text-align: center; }
+.slip-symbol { width: 40px; height: 40px; object-fit: contain; }
+
+.vvpat-label {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255,255,255,0.2);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+/* TALLY VIEW */
+.tally-unit {
+    width: 100%;
+    max-width: 400px;
+    height: 600px;
+    background: #eef;
+}
+.tally-display {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+#tallyList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+#tallyList li {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    border: 1px solid #dde;
+}
+.control-panel {
+    padding: 20px;
+    background: #ddd;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.control-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+.control-btn.blue { background: #0056b3; }
+.control-btn.red { background: #b3002d; }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .ballot-unit { height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+    .vvpat-unit { height: 100vh; width: 100%; border-radius: 0; border: none; }
+}
